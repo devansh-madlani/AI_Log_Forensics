@@ -1,0 +1,21 @@
+# Core API
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+pydantic==2.9.2
+
+# Database
+SQLAlchemy==2.0.35
+
+# ML / data
+scikit-learn==1.5.2
+pandas==2.2.3
+numpy==2.1.1
+
+# Native OS log collection
+# Windows: pywin32 is installed only on Windows.
+# macOS uses the built-in /usr/bin/log command and needs no extra package.
+# These are only usable on a Windows host. They are harmless to leave
+# in requirements.txt on Linux/macOS -- pip install will simply skip
+# them there (see note in README). On Windows, install with:
+#   pip install pywin32
+pywin32; sys_platform == "win32"

@@ -1,0 +1,79 @@
+/* Evidence-tag risk badge: asymmetric "folded tag" corners and a punch
+   hole, coloured by the heat scale. */
+.risk-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  border-radius: 3px 8px 3px 8px;
+  padding: 3px 10px 3px 8px;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+
+.risk-badge--md { font-size: 12.5px; }
+.risk-badge--sm { font-size: 11.5px; padding: 1px 8px 1px 6px; }
+
+.risk-badge__notch {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: currentColor;
+}
+
+.risk-badge--low {
+  background: var(--risk-low-bg);
+  color: var(--risk-low);
+  border-color: rgba(79, 181, 138, 0.3);
+}
+.risk-badge--medium {
+  background: var(--risk-medium-bg);
+  color: var(--risk-medium);
+  border-color: rgba(224, 164, 58, 0.34);
+}
+.risk-badge--high {
+  background: var(--risk-high-bg);
+  color: var(--risk-high);
+  border-color: rgba(232, 116, 59, 0.36);
+}
+.risk-badge--critical {
+  background: var(--risk-critical-bg);
+  color: var(--risk-critical);
+  border-color: rgba(229, 72, 77, 0.45);
+}
+.risk-badge--critical .risk-badge__notch {
+  box-shadow: 0 0 0 3px rgba(229, 72, 77, 0.2);
+}
+
+.risk-badge--unknown {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+/* Real evidence gets a solid tag; synthetic data a hatched, dashed one,
+   so "this is not real" reads at a glance. */
+.origin-tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 0 7px;
+  line-height: 18px;
+  border-radius: 3px;
+  border: 1px solid;
+}
+
+.origin-tag--observed {
+  color: var(--tag-observed);
+  border-color: rgba(201, 211, 224, 0.25);
+  background: var(--tag-observed-bg);
+}
+
+.origin-tag--synthetic {
+  color: var(--tag-synthetic);
+  border-style: dashed;
+  border-color: rgba(185, 163, 230, 0.5);
+  background: repeating-linear-gradient(135deg, var(--tag-synthetic-bg) 0 4px, transparent 4px 8px);
+}

@@ -1,0 +1,5 @@
+# Extra dependencies needed only to run the test suite (not required to
+# run the application itself). Install with:
+#   pip install -r requirements.txt -r requirements-dev.txt
+pytest==8.3.3
+httpx==0.27.2

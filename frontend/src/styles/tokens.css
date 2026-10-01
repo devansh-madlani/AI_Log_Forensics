@@ -1,0 +1,281 @@
+/* ============================================================
+   Design tokens — Forensic Investigator Console
+   ------------------------------------------------------------
+   Subject: a post-incident evidence review tool for an analyst
+   working through host logs. The palette is a case-room navy with
+   one "UV evidence light" cyan reserved for actions, selection and
+   focus. The green -> red heat scale is used for risk and nothing
+   else, so colour always means the same thing. Monospace is kept for
+   genuine machine data (timestamps, IDs, raw records) only.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  color-scheme: dark;
+
+  /* --- surfaces: case-room navy + steel --- */
+  --bg-app: #0d141d;
+  --bg-panel: #141d29;
+  --bg-panel-raised: #1b2635;
+  --bg-hover: #1f2b3c;
+  --bg-inset: #0f1720;
+  --hairline: #243142;
+  --hairline-soft: #1b2533;
+  --hairline-strong: #33445a;
+
+  /* --- text --- */
+  --text-primary: #e6ebf2;
+  --text-secondary: #a6b1c2;
+  --text-muted: #75839a;
+
+  /* --- accent: UV evidence light --- */
+  --accent: #57c7d4;
+  --accent-soft: rgba(87, 199, 212, 0.12);
+  --accent-line: rgba(87, 199, 212, 0.4);
+  --accent-strong: #7fd8e2;
+  --accent-ink: #062126;
+
+  /* --- risk heat scale (functional: severity escalation only) --- */
+  --risk-low: #4fb58a;
+  --risk-low-bg: rgba(79, 181, 138, 0.12);
+  --risk-medium: #e0a43a;
+  --risk-medium-bg: rgba(224, 164, 58, 0.13);
+  --risk-high: #e8743b;
+  --risk-high-bg: rgba(232, 116, 59, 0.14);
+  --risk-critical: #e5484d;
+  --risk-critical-bg: rgba(229, 72, 77, 0.15);
+  --risk-none: #3a4a60;
+
+  /* --- evidence origin: real = solid tag, synthetic = hatched tag --- */
+  --tag-observed: #c9d3e0;
+  --tag-observed-bg: rgba(201, 211, 224, 0.08);
+  --tag-synthetic: #b9a3e6;
+  --tag-synthetic-bg: rgba(185, 163, 230, 0.1);
+
+  /* --- status --- */
+  --ok: #4fb58a;
+  --warn: #e0a43a;
+  --danger: #e5484d;
+
+  /* --- type --- */
+  --font-display: 'IBM Plex Sans Condensed', 'Segoe UI Semibold', system-ui, sans-serif;
+  --font-body: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Cascadia Code', 'Consolas', monospace;
+
+  /* --- shape: radius follows hierarchy (surfaces > controls > chips) --- */
+  --radius-sm: 4px;
+  --radius-md: 7px;
+  --radius-lg: 10px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --gutter: clamp(16px, 3vw, 32px);
+
+  /* --- depth / motion --- */
+  --shadow-panel: none;
+  --shadow-pop: 0 16px 40px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px var(--hairline-strong);
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --dur: 150ms;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-app);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+}
+
+button, input, select {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+/* Visible keyboard focus everywhere, per accessibility floor */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--text-primary);
+}
+
+/* Scrollbars — quiet, consistent with the panel surfaces */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--hairline-strong) transparent;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--hairline);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+code, .mono {
+  font-family: var(--font-mono);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* --- shared buttons ------------------------------------------------ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  height: 36px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--hairline-strong);
+  background: var(--bg-panel-raised);
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+.btn:hover:not(:disabled) {
+  background: var(--bg-hover);
+  border-color: var(--text-muted);
+}
+.btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.btn--primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+.btn--primary:hover:not(:disabled) {
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
+}
+.btn--quiet {
+  background: transparent;
+  border-color: transparent;
+  color: var(--text-secondary);
+}
+.btn--quiet:hover:not(:disabled) {
+  background: var(--bg-hover);
+  border-color: transparent;
+  color: var(--text-primary);
+}
+.btn--icon {
+  width: 36px;
+  padding: 0;
+}
+.btn__spinner {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* --- shared panels ------------------------------------------------ */
+.panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-panel);
+  min-width: 0;
+}
+.panel__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--hairline-soft);
+  flex-wrap: wrap;
+}
+.panel__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.005em;
+}
+.panel__subtitle {
+  margin: 2px 0 0;
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+/* --- skeleton loading --------------------------------------------- */
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-panel-raised) 0%, var(--bg-hover) 50%, var(--bg-panel-raised) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.3s ease-in-out infinite;
+  border-radius: var(--radius-sm);
+}
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}

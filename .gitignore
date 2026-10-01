@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+.pytest_cache/
+
+# Database (generated at runtime)
+backend/forensics.db
+
+# Node / frontend
+frontend/node_modules/
+frontend/dist/
+
+# OS
+.DS_Store

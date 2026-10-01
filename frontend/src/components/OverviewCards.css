@@ -1,0 +1,121 @@
+.summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(110px, auto)) minmax(260px, 1fr);
+  border-bottom: 1px solid var(--hairline-soft);
+}
+
+.summary__metric,
+.summary__dist {
+  padding: var(--space-4) var(--space-5);
+  min-width: 0;
+}
+.summary__metric + .summary__metric,
+.summary__dist {
+  border-left: 1px solid var(--hairline-soft);
+}
+
+.summary__label {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.summary__value {
+  margin-top: 2px;
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}
+.summary__metric--medium.has-value .summary__value { color: var(--risk-medium); }
+.summary__metric--high.has-value .summary__value { color: var(--risk-high); }
+.summary__metric--critical.has-value .summary__value { color: var(--risk-critical); }
+
+.summary__sub {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* --- risk distribution ------------------------------------------- */
+.risk-dist__bar {
+  display: flex;
+  gap: 3px;
+  height: 10px;
+  margin: 12px 0 10px;
+}
+.risk-dist__seg {
+  border-radius: 2px;
+  min-width: 4px;
+  transition: flex-grow 400ms var(--ease);
+}
+.risk-dist__seg--low { background: var(--risk-low); }
+.risk-dist__seg--medium { background: var(--risk-medium); }
+.risk-dist__seg--high { background: var(--risk-high); }
+.risk-dist__seg--critical { background: var(--risk-critical); }
+.risk-dist__empty {
+  flex: 1;
+  border-radius: 2px;
+  background: repeating-linear-gradient(135deg, var(--hairline) 0 5px, transparent 5px 10px);
+}
+.risk-dist__legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.risk-dist__legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.risk-dist__legend strong {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}
+.risk-dist__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+.risk-dist__dot--low { background: var(--risk-low); }
+.risk-dist__dot--medium { background: var(--risk-medium); }
+.risk-dist__dot--high { background: var(--risk-high); }
+.risk-dist__dot--critical { background: var(--risk-critical); }
+
+@media (max-width: 1100px) {
+  .summary {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .summary__dist {
+    grid-column: 1 / -1;
+    border-left: none;
+    border-top: 1px solid var(--hairline-soft);
+  }
+}
+@media (max-width: 640px) {
+  .summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .summary__metric:nth-child(3) {
+    border-left: none;
+  }
+  .summary__metric:nth-child(n + 3) {
+    border-top: 1px solid var(--hairline-soft);
+  }
+  .summary__metric,
+  .summary__dist {
+    padding: var(--space-3) var(--space-4);
+  }
+  .summary__value {
+    font-size: 26px;
+  }
+}
